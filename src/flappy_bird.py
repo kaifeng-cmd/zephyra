@@ -13,9 +13,9 @@ class FlappyBirdEnv:
         self.BLACK = (0, 0, 0)
         self.GOLD = (255, 215, 0)  
 
-        self.BACKGROUND = pygame.image.load("rl_flappyBird/image (1).png").convert()
+        self.BACKGROUND = pygame.image.load("assets/image (1).png").convert()
         self.BACKGROUND = pygame.transform.scale(self.BACKGROUND, (self.WIDTH, self.HEIGHT))
-        self.BIRD_IMAGE = pygame.image.load("rl_flappyBird/futuristic-robotic-hummingbird_23-2151443897-Photoroom.png").convert_alpha()
+        self.BIRD_IMAGE = pygame.image.load("assets/futuristic-robotic-hummingbird_23-2151443897-Photoroom.png").convert_alpha()
         self.BIRD_IMAGE = pygame.transform.scale(self.BIRD_IMAGE, (80, 50))
 
         self.glow_radius = 30
