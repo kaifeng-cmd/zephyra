@@ -1,12 +1,13 @@
 import numpy as np
 import pygame
 import sys
-sys.path.append(r"C:\Users\dream\PythonWork\rl_flappyBird")
-from flappy_bird import FlappyBirdEnv
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+from src.flappy_bird import FlappyBirdEnv
 import matplotlib.pyplot as plt
 
-# 训练参数
-EPISODES = 2500
+ # Training parameters
+EPISODES = 3000
 LEARNING_RATE = 0.1
 DISCOUNT_FACTOR = 0.95
 EPSILON = 1.0
@@ -27,7 +28,7 @@ Q_table = np.zeros(state_space_size + (action_space_size,))
 best_Q_table = np.copy(Q_table)
 best_score = -float('inf')
 
-# 训练
+ # Training loop
 for episode in range(EPISODES):
     state = env.reset()
     discrete_state = discretize_state(state)
@@ -60,11 +61,11 @@ for episode in range(EPISODES):
     if episode % 1000 == 0:
         print(f"Episode {episode}, Reward: {total_reward}, Score: {env.score}")
 
-# 保存最佳 Q-Table
-np.save("rl_flappyBird/best_q_table_beginner.npy", best_Q_table)
+ # Save the best Q-Table
+np.save("models/best_q_table_hard.npy", best_Q_table)
 print(f"Training complete. Best Q-Table saved with best score: {best_score}")
 
-# 测试 Agent 10 次并绘图
+ # Test Agent 10 times and plot
 print("Testing Agent performance over 10 episodes...")
 agent_scores = []
 for i in range(10):
@@ -84,14 +85,14 @@ for i in range(10):
     agent_scores.append(env.score)
     print(f"Test Episode {i}, Reward: {total_reward}, Score: {env.score}")
 
-# 绘制并保存图表
+ # Plot and save the score graph
 plt.plot(range(1, 11), agent_scores, marker='o', linestyle='-', color='b')
 plt.xlabel('Test Episode')
 plt.ylabel('Score')
-plt.title('Agent Performance (Play across 2500 times)')
+plt.title('Agent Performance (Play across 3000 times)')
 plt.grid(True)
-plt.savefig("rl_flappyBird/beginner_mode_scores.png")
-print("Score graph saved to 'rl_flappyBird/beginner_mode_scores.png'")
+plt.savefig("results/hard_mode_scores.png")
+print("Score graph saved to 'results/hard_mode_scores.png'")
 plt.close()
 
 env.close()

@@ -105,7 +105,7 @@ class FlappyBirdEnv:
         pygame.draw.rect(self.WIN, self.BLACK, (self.pipe_x, 0, self.PIPE_WIDTH, self.pipe_height))
         pygame.draw.rect(self.WIN, self.BLACK, (self.pipe_x, self.pipe_height + self.PIPE_GAP, self.PIPE_WIDTH, self.HEIGHT))
 
-        # 显示 Score（左上角，黄色科技感字体）
+        # Display score at top corner
         score_text = self.font.render(f"Score: {self.score}", True, self.GOLD)
         self.WIN.blit(score_text, (10, 30))
 
