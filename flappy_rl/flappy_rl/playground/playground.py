@@ -129,27 +129,66 @@ while True:
     if not pygame.get_init():  # If window is closed
         break
 
-# Statistics and analysis
-if user_scores:  # Ensure at least one round played
-    avg_user_score = np.mean(user_scores)
-    avg_agent_score = np.mean(agent_scores)
-    print(f"\nAnalysis:")
-    print(f"Total Rounds: {len(user_scores)}")
-    print(f"Average User Score: {avg_user_score:.2f}")
-    print(f"Average Agent Score: {avg_agent_score:.2f}")
+def main():
+    print("Starting Flappy Bird Challenge...")
+    user_scores = []
+    agent_scores = []
+    round_num = 1
 
-    # Plot user vs agent result graph
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(1, len(user_scores) + 1), user_scores, marker='o', linestyle='-', color='b', label='User Score')
-    plt.plot(range(1, len(agent_scores) + 1), agent_scores, marker='o', linestyle='-', color='g', label='Agent Score')
-    plt.xlabel('Round')
-    plt.ylabel('Score')
-    plt.title('User vs Agent Performance (2500)')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig("../results/user_vs_agent_scores.png")
-    print("User vs Agent score graph saved to '../results/user_vs_agent_scores.png'")
-    plt.close()
+    while True:
+        result = play_round(round_num)
+        if result is False:  # User closed window
+            break
+        user_score, agent_score = result
+        user_scores.append(user_score)
+        agent_scores.append(agent_score)
+        round_num += 1
 
-if not pygame.get_init():  # Ensure program exits if window is closed
-    pygame.quit()
+        # Show continue or quit prompt
+        env.WIN.blit(env.BACKGROUND, (0, 0))
+        continue_text = env.font.render("Press 'c' to continue, 'q' to quit", True, env.GOLD, (50, 50, 50))
+        env.WIN.blit(continue_text, (env.WIDTH // 2 - 150, env.HEIGHT // 2))
+        pygame.display.update()
+
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_c:  # Only check lowercase 'c'
+                        waiting = False  # Continue next round
+                    elif event.key == pygame.K_q:  # Only check lowercase 'q'
+                        waiting = False
+                        pygame.quit()  # Ensure exit
+
+        if not pygame.get_init():  # If window is closed
+            break
+
+    # Statistics and analysis
+    if user_scores:  # Ensure at least one round played
+        avg_user_score = np.mean(user_scores)
+        avg_agent_score = np.mean(agent_scores)
+        print(f"\nAnalysis:")
+        print(f"Total Rounds: {len(user_scores)}")
+        print(f"Average User Score: {avg_user_score:.2f}")
+        print(f"Average Agent Score: {avg_agent_score:.2f}")
+
+        # Plot user vs agent result graph
+        plt.figure(figsize=(10, 6))
+        plt.plot(range(1, len(user_scores) + 1), user_scores, marker='o', linestyle='-', color='b', label='User Score')
+        plt.plot(range(1, len(agent_scores) + 1), agent_scores, marker='o', linestyle='-', color='g', label='Agent Score')
+        plt.xlabel('Round')
+        plt.ylabel('Score')
+        plt.title('User vs Agent Performance (2500)')
+        plt.legend()
+        plt.grid(True)
+        plt.savefig("../results/user_vs_agent_scores.png")
+        print("User vs Agent score graph saved to '../results/user_vs_agent_scores.png'")
+        plt.close()
+
+    if not pygame.get_init():  # Ensure program exits if window is closed
+        pygame.quit()
+
+if __name__ == "__main__":
+    main()

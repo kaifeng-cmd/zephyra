@@ -19,7 +19,7 @@
 - **Data Analysis & Result Visualization:** NumPy, Matplotlib
 
 ## 🎮 Simple Demo
-![Demo video](<assets/Screen Recording 2025-02-23 170420.gif>)
+![Demo video](<https://raw.githubusercontent.com/kaifeng-cmd/zephyra/main/flappy_rl/flappy_rl/assets/Screen%20Recording%202025-02-23%20170420.gif>)
 
 ## 🎮 Project Structure
 

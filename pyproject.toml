@@ -4,10 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flappy-rl"
-version = "0.1.0"
+version = "0.1.1"
 description = "FlappyBird game with Q-Learning AI"
 readme = "README.md"
-authors = [{ name = "kaifeng-cmd", email = "your.email@example.com" }]
+authors = [{ name = "kaifeng-cmd", email = "dreamkfeng@gmail.com" }]
 license = { file = "LICENSE" }
 classifiers = [
     "Programming Language :: Python :: 3",
