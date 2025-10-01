@@ -1,10 +1,7 @@
 import numpy as np
 import pygame
 import sys
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from src.flappy_bird import FlappyBirdEnv
+from ..game.flappy_bird import FlappyBirdEnv
 import matplotlib.pyplot as plt
 
  # Training parameters
@@ -63,7 +60,7 @@ for episode in range(EPISODES):
         print(f"Episode {episode}, Reward: {total_reward}, Score: {env.score}")
 
  # Save the best Q-Table
-np.save("models/best_q_table_beginner.npy", best_Q_table)
+np.save("../models/best_q_table_beginner.npy", best_Q_table)
 print(f"Training complete. Best Q-Table saved with best score: {best_score}")
 
  # Test Agent 10 times and plot
@@ -92,7 +89,7 @@ plt.xlabel('Test Episode')
 plt.ylabel('Score')
 plt.title('Agent Performance (Play across 2500 times)')
 plt.grid(True)
-plt.savefig("results/beginner_mode_scores.png")
+plt.savefig("../results/beginner_mode_scores.png")
 print("Score graph saved to 'results/beginner_mode_scores.png'")
 plt.close()
 

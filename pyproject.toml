@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flappy-rl"
+version = "0.1.0"
+description = "FlappyBird game with Q-Learning AI"
+readme = "README.md"
+authors = [{ name = "kaifeng-cmd", email = "your.email@example.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pygame>=2.0.0",
+    "numpy>=1.19.0",
+    "matplotlib>=3.3.0",
+]
+requires-python = ">=3.7,<3.12"
+
+[project.scripts]
+flappy-play = "flappy_rl.playground.playground:main"
+flappy-play-hard = "flappy_rl.playground.playgroundHARD:main"
+flappy-train = "flappy_rl.train.train_qLearningBEGINNER:main"
+flappy-train-hard = "flappy_rl.train.train_qLearningHARD:main"
+
+[project.urls]
+Homepage = "https://github.com/kaifeng-cmd/zephyra"

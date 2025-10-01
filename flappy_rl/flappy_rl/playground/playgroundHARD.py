@@ -1,10 +1,8 @@
 import numpy as np
 import pygame
 import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from src.flappy_bird import FlappyBirdEnv
 import time
+from ..game.flappy_bird import FlappyBirdEnv
 import matplotlib.pyplot as plt
 
 def discretize_state(state):
