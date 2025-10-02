@@ -1,6 +1,30 @@
 import pygame
 import random
 import math
+import os
+try:
+    import pkg_resources
+    PKG_RESOURCES_AVAILABLE = True
+except ImportError:
+    PKG_RESOURCES_AVAILABLE = False
+
+def get_asset_path(asset_name):
+    """
+    Gets the absolute path to an asset, handling both installed package
+    and local script execution scenarios.
+    """
+    # If running as an installed package, use pkg_resources
+    if PKG_RESOURCES_AVAILABLE and 'flappy_rl.egg-info' in str(os.path.abspath(__file__)):
+        try:
+            return pkg_resources.resource_filename('flappy_rl', f'assets/{asset_name}')
+        except Exception:
+            pass # Fallback to file-based path
+
+    # If running from source (developer mode), use relative paths
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # Navigate from src/flappy_rl/game -> src/flappy_rl -> src -> root -> assets
+    asset_dir = os.path.join(base_dir, '..', 'assets')
+    return os.path.join(asset_dir, asset_name)
 
 class FlappyBirdEnv:
     def __init__(self):
@@ -11,21 +35,24 @@ class FlappyBirdEnv:
 
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
-        self.GOLD = (255, 215, 0)  
+        self.GOLD = (255, 215, 0)
 
-        self.BACKGROUND = pygame.image.load("../assets/image (1).png").convert()
+        background_path = get_asset_path('image (1).png')
+        bird_image_path = get_asset_path('futuristic-robotic-hummingbird_23-2151443897-Photoroom.png')
+
+        self.BACKGROUND = pygame.image.load(background_path).convert()
         self.BACKGROUND = pygame.transform.scale(self.BACKGROUND, (self.WIDTH, self.HEIGHT))
-        self.BIRD_IMAGE = pygame.image.load("../assets/futuristic-robotic-hummingbird_23-2151443897-Photoroom.png").convert_alpha()
+        self.BIRD_IMAGE = pygame.image.load(bird_image_path).convert_alpha()
         self.BIRD_IMAGE = pygame.transform.scale(self.BIRD_IMAGE, (80, 50))
 
         self.glow_radius = 30
         self.GLOW_SURFACE = pygame.Surface((self.glow_radius * 2, self.glow_radius * 2), pygame.SRCALPHA)
         pygame.draw.circle(self.GLOW_SURFACE, (0, 255, 255, 100), (self.glow_radius, self.glow_radius), self.glow_radius)
 
-        self.font = pygame.font.SysFont("helvetica", 30, bold=False)  
+        self.font = pygame.font.SysFont("helvetica", 30, bold=False)
 
         self.bird_x = 100
-        self.GRAVITY = 0.3  
+        self.GRAVITY = 0.3
         self.FLAP = -3
         self.PIPE_WIDTH = 100
         self.PIPE_GAP = 150

@@ -1,9 +1,14 @@
 import numpy as np
 import pygame
 import sys
+import os
 import time
-from ..game.flappy_bird import FlappyBirdEnv
 import matplotlib.pyplot as plt
+
+# Add the project root to the Python path to allow imports from src
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.flappy_rl.game.flappy_bird import FlappyBirdEnv
 
 def discretize_state(state):
     bird_y, pipe_x, pipe_height = state
@@ -14,11 +19,12 @@ def discretize_state(state):
 
 env = FlappyBirdEnv()
 
- # Load Q-Table
-best_Q_table = np.load("../models/best_q_table_beginner.npy")
-print("Loaded best_q_table_beginner.npy for Agent")
+# Correctly load the Q-Table from the new path
+model_path = os.path.join(os.path.dirname(__file__), '..', 'src', 'flappy_rl', 'models', 'best_q_table_hard.npy')
+best_Q_table = np.load(model_path)
+print("Loaded best_q_table_hard.npy for Agent")
 
- # Countdown function for user
+# Countdown function for user
 def countdownUser():
     env.reset()
     for i in range(3, 0, -1):
@@ -37,7 +43,7 @@ def countdownAgent():
         pygame.display.update()
         time.sleep(1)
 
- # Function for user vs agent round
+# Function for user vs agent round
 def play_round(round_num):
     # User plays
     print(f"\nRound {round_num} - User's turn...")
@@ -46,13 +52,13 @@ def play_round(round_num):
     done = False
     user_score = 0
     while not done:
-        action = 0  # Default: do not jump
+        action = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 env.close()
-                return False  # Indicates exit
+                return False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                action = 1  # User presses space to jump
+                action = 1
         state, reward, done = env.step(action)
         env.render()
         if reward > 0:
@@ -68,7 +74,7 @@ def play_round(round_num):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 env.close()
-                return False  # Indicates exit
+                return False
         discrete_state = discretize_state(state)
         action = np.argmax(best_Q_table[discrete_state])
         state, reward, done = env.step(action)
@@ -76,7 +82,6 @@ def play_round(round_num):
         if reward > 0:
             agent_score = env.score
 
-    # Show single round result
     print(f"Round {round_num} - User Score: {user_score}, Agent Score: {agent_score}")
     winner = "User" if user_score > agent_score else "Agent" if agent_score > user_score else "Tie"
     print(f"Round {round_num} - Winner: {winner}")
@@ -87,11 +92,11 @@ def play_round(round_num):
     env.WIN.blit(result_text, (env.WIDTH // 2 - 150, env.HEIGHT // 2 - 40))
     env.WIN.blit(winner_text, (env.WIDTH // 2 - 100, env.HEIGHT // 2 + 10))
     pygame.display.update()
-    time.sleep(3)  # Show result for 3 seconds
+    time.sleep(3)
 
     return user_score, agent_score
 
- # Main loop: multiple rounds
+# Main loop
 print("Starting Flappy Bird Challenge...")
 user_scores = []
 agent_scores = []
@@ -99,14 +104,13 @@ round_num = 1
 
 while True:
     result = play_round(round_num)
-    if result is False:  # User closed window
+    if result is False:
         break
     user_score, agent_score = result
     user_scores.append(user_score)
     agent_scores.append(agent_score)
     round_num += 1
 
-    # Show continue or quit prompt
     env.WIN.blit(env.BACKGROUND, (0, 0))
     continue_text = env.font.render("Press 'c' to continue, 'q' to quit", True, env.GOLD, (50, 50, 50))
     env.WIN.blit(continue_text, (env.WIDTH // 2 - 150, env.HEIGHT // 2))
@@ -117,78 +121,36 @@ while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 waiting = False
+                pygame.quit()
             elif event.type == pygame.KEYDOWN:
-                print(f"Key pressed: {event.key}")  # Debug: print pressed key
-                if event.key == pygame.K_c:  # Only check lowercase 'c'
-                    waiting = False  # Continue next round
-
-                elif event.key == pygame.K_q:  # Only check lowercase 'q'
+                if event.key == pygame.K_c:
                     waiting = False
-                    pygame.quit()  # Ensure exit
-
-    if not pygame.get_init():  # If window is closed
+                elif event.key == pygame.K_q:
+                    waiting = False
+                    pygame.quit()
+    if not pygame.get_init():
         break
 
-def main():
-    print("Starting Flappy Bird Challenge...")
-    user_scores = []
-    agent_scores = []
-    round_num = 1
+if user_scores:
+    avg_user_score = np.mean(user_scores)
+    avg_agent_score = np.mean(agent_scores)
+    print(f"\nAnalysis:")
+    print(f"Total Rounds: {len(user_scores)}")
+    print(f"Average User Score: {avg_user_score:.2f}")
+    print(f"Average Agent Score: {avg_agent_score:.2f}")
 
-    while True:
-        result = play_round(round_num)
-        if result is False:  # User closed window
-            break
-        user_score, agent_score = result
-        user_scores.append(user_score)
-        agent_scores.append(agent_score)
-        round_num += 1
+    results_path = os.path.join(os.path.dirname(__file__), '..', 'results', 'user_vs_agent_scoresHARD.png')
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, len(user_scores) + 1), user_scores, marker='o', linestyle='-', color='b', label='User Score')
+    plt.plot(range(1, len(agent_scores) + 1), agent_scores, marker='o', linestyle='-', color='g', label='Agent Score')
+    plt.xlabel('Round')
+    plt.ylabel('Score')
+    plt.title('User vs Agent Performance (Hard)')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(results_path)
+    print(f"User vs Agent score graph saved to '{results_path}'")
+    plt.close()
 
-        # Show continue or quit prompt
-        env.WIN.blit(env.BACKGROUND, (0, 0))
-        continue_text = env.font.render("Press 'c' to continue, 'q' to quit", True, env.GOLD, (50, 50, 50))
-        env.WIN.blit(continue_text, (env.WIDTH // 2 - 150, env.HEIGHT // 2))
-        pygame.display.update()
-
-        waiting = True
-        while waiting:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    waiting = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_c:  # Only check lowercase 'c'
-                        waiting = False  # Continue next round
-                    elif event.key == pygame.K_q:  # Only check lowercase 'q'
-                        waiting = False
-                        pygame.quit()  # Ensure exit
-
-        if not pygame.get_init():  # If window is closed
-            break
-
-    # Statistics and analysis
-    if user_scores:  # Ensure at least one round played
-        avg_user_score = np.mean(user_scores)
-        avg_agent_score = np.mean(agent_scores)
-        print(f"\nAnalysis:")
-        print(f"Total Rounds: {len(user_scores)}")
-        print(f"Average User Score: {avg_user_score:.2f}")
-        print(f"Average Agent Score: {avg_agent_score:.2f}")
-
-        # Plot user vs agent result graph
-        plt.figure(figsize=(10, 6))
-        plt.plot(range(1, len(user_scores) + 1), user_scores, marker='o', linestyle='-', color='b', label='User Score')
-        plt.plot(range(1, len(agent_scores) + 1), agent_scores, marker='o', linestyle='-', color='g', label='Agent Score')
-        plt.xlabel('Round')
-        plt.ylabel('Score')
-        plt.title('User vs Agent Performance (2500)')
-        plt.legend()
-        plt.grid(True)
-        plt.savefig("../results/user_vs_agent_scores.png")
-        print("User vs Agent score graph saved to '../results/user_vs_agent_scores.png'")
-        plt.close()
-
-    if not pygame.get_init():  # Ensure program exits if window is closed
-        pygame.quit()
-
-if __name__ == "__main__":
-    main()
+if pygame.get_init():
+    pygame.quit()

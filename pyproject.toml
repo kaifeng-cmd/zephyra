@@ -1,21 +1,16 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "flappy-rl"
-version = "0.1.1"
+name = "flappy_rl"
+version = "0.2.0"
 description = "FlappyBird game with Q-Learning AI"
 readme = "README.md"
 authors = [{ name = "kaifeng-cmd", email = "dreamkfeng@gmail.com" }]
 license = { file = "LICENSE" }
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
@@ -24,13 +19,18 @@ dependencies = [
     "numpy>=1.19.0",
     "matplotlib>=3.3.0",
 ]
-requires-python = ">=3.7,<3.12"
-
-[project.scripts]
-flappy-play = "flappy_rl.playground.playground:main"
-flappy-play-hard = "flappy_rl.playground.playgroundHARD:main"
-flappy-train = "flappy_rl.train.train_qLearningBEGINNER:main"
-flappy-train-hard = "flappy_rl.train.train_qLearningHARD:main"
+requires-python = ">=3.8"
 
 [project.urls]
-Homepage = "https://github.com/kaifeng-cmd/zephyra"
+"Homepage" = "https://github.com/kaifeng-cmd/rl_flappyBird"
+"Bug Tracker" = "https://github.com/kaifeng-cmd/rl_flappyBird/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["flappy_rl"]
+
+[tool.setuptools.package-data]
+"flappy_rl" = ["models/*.npy", "assets/*.*"]
+
+[project.scripts]
+flappy-alpha = "flappy_rl.main:main"
