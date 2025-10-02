@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flappy_rl"
-version = "0.2.1"
-description = "FlappyBird game with Q-Learning AI"
+version = "0.2.2"
+description = "FlappyBird game with Reinforcement Learning AI"
 readme = "README.md"
 authors = [{ name = "kaifeng-cmd", email = "dreamkfeng@gmail.com" }]
 license = { file = "LICENSE" }
@@ -22,8 +22,8 @@ dependencies = [
 requires-python = ">=3.8"
 
 [project.urls]
-"Homepage" = "https://github.com/kaifeng-cmd/rl_flappyBird"
-"Bug Tracker" = "https://github.com/kaifeng-cmd/rl_flappyBird/issues"
+"Homepage" = "https://github.com/kaifeng-cmd/zephyra"
+"Bug Tracker" = "https://github.com/kaifeng-cmd/zephyra/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

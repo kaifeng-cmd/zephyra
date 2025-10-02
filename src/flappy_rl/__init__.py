@@ -1,5 +1,5 @@
 """
-FlappyBird game with Q-Learning AI
+FlappyBird game with Reinforcement Learning AI
 """
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"

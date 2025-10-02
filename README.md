@@ -1,5 +1,8 @@
 # 🏆 FlappyAlpha: Reinforcement Learning vs Human
 
+[![PyPI version](https://badge.fury.io/py/flappy-rl.svg)](https://badge.fury.io/py/flappy-rl)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## 🎮 Overview
 
 **FlappyAlpha** is a reinforcement learning (RL) project inspired by AlphaGo, where an RL agent learns to play a custom Flappy Bird game environment with realistic physics (gravity, collision, etc.). The agent (FlappyAlpha) is trained using Q-Learning to maximize its score by passing obstacles and avoiding crashes. The project also features human vs. agent battles to showcase the agent's learning progress.
@@ -11,6 +14,7 @@
 - RL training for "Beginner" and "Hard" agents
 - Human vs Agent battle playground with score visualization
 - Performance interpretation and result plots
+- Easy to use and play for normal users (a PyPI package is prepared)
 
 ## 🎮 Tech Stack
 
@@ -19,77 +23,111 @@
 - **Data Analysis & Result Visualization:** NumPy, Matplotlib
 
 ## 🎮 Simple Demo
-![Demo video](<https://raw.githubusercontent.com/kaifeng-cmd/zephyra/main/flappy_rl/assets/Screen%20Recording%202025-02-23%20170420.gif>)
+![Demo video](<src/flappy_rl/assets/Screen Recording 2025-02-23 170420.gif>)
 
-## 🎮 Project Structure
+## 📂 Project Structure
+
+The project uses a standard `src` layout to separate the installable package from developer scripts.
 
 ```
-rl_flappyBird/
+zephyra/
 │
-├── README.md
-├── requirements.txt
-├── .gitignore
+├── .github/workflows/      # CI/CD pipeline for PyPI publishing
+├── src/
+│   └── flappy_rl/          # Core package source code
+│       ├── game/           # Game environment logic
+│       ├── models/         # Pre-trained Q-table models (.npy)
+│       ├── assets/         # Game assets
+│       ├── __init__.py
+│       └── main.py         # Entry point for PyPI package to run
 │
-├── src/                        # Core game environment
-│   └── flappy_bird.py
-│
-├── train/                      # Training scripts
+├── scripts/                # Scripts for developers (training, testing)
 │   ├── train_qLearningBEGINNER.py
-│   └── train_qLearningHARD.py
-│
-├── models/                     # Trained models
-│   ├── best_q_table_beginner.npy
-│   └── best_q_table_hard.npy
-│
-├── results/                    # Result plots and analysis
-│   ├── beginner_mode_scores.png
-│   ├── hard_mode_scores.png
-│   ├── user_vs_agent_scores.png
-│   └── user_vs_agent_scoresHARD.png
-│
-├── playground/                 # Human vs agent
+│   ├── train_qLearningHARD.py
 │   ├── playground.py
 │   └── playgroundHARD.py
 │
-└── assets/                     # Assets
+├── results/                # Output for training & playing result graphs
+├── LICENSE
+├── pyproject.toml          # Main project configuration for packaging
+├── README.md
+└── requirements.txt        # Dependencies
 ```
 
-## 🎮 How to Use
-> U can use virtual environment (venv), but since the dependencies are just common and less, so depend on yourself.
+---
 
-### 1. Install Dependencies
+## 🚀 Quick Start (For Users that are just want to play only)
 
+Get started in under a minute! Play against the AI directly from your terminal. I've make it as an offical python package.
+
+### 1. Install from PyPI
 ```bash
+pip install -U flappy-rl
+```
+
+### 2. Challenge the Agent
+- Play against the **Beginner** agent:
+  ```bash
+  flappy-alpha --mode beginner
+  ```
+- Play against the **Hard** agent:
+  ```bash
+  flappy-alpha --mode hard
+  ```
+### Example
+![cmd to start the game](screenshots/cmdtoStart.png)
+
+---
+
+## 🛠️ For Developers & Researchers
+
+This section is for those who want to dive deeper, retrain the models, or experiment with the code.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/kaifeng-cmd/zephyra.git
+cd zephyra
+```
+
+### 2. Install Dependencies
+It's recommended to use a virtual environment.
+```bash
+# Create and activate a virtual environment (optional but recommended)
+python -m venv venv
+
+# For Windows
+venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Train the RL Agent
+### 3. Train the RL Agent
+Pre-trained models are included, but you can start your own training sessions.
 
-> **Note:** Pre-trained Q-tables are provided in the `models/` folder. You can retrain if you wish.
-
-- Train Beginner mode agent:
+- Train the Beginner agent (2500 episodes):
   ```bash
-  python train/train_qLearningBEGINNER.py
+  python scripts/train_qLearningBEGINNER.py
   ```
-- Train Hard mode agent:
+- Train the Hard agent (3000 episodes):
   ```bash
-  python train/train_qLearningHARD.py
+  python scripts/train_qLearningHARD.py
   ```
+  > Training progress and results will be saved as `.png` plots in the `results/` folder.
 
-### 3. Human vs. Agent Battle
+### 4. Run the Playground
+Test the agents or play against them using the original developer scripts.
 
-- Play against Beginner agent:
+- Play against the Beginner agent:
   ```bash
-  python playground/playground.py
+  python scripts/playground.py
   ```
-- Play against Hard agent:
+- Play against the Hard agent:
   ```bash
-  python playground/playgroundHARD.py
+  python scripts/playgroundHARD.py
   ```
 
-### 4. View Results
-
-- Training and battle results are auto saved as `.png` plots in the `results/` folder.
+---
 
 ## 🎮 Highlights & Insights
 
