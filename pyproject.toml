@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flappy_rl"
-version = "0.2.0"
+version = "0.2.1"
 description = "FlappyBird game with Q-Learning AI"
 readme = "README.md"
 authors = [{ name = "kaifeng-cmd", email = "dreamkfeng@gmail.com" }]
@@ -27,7 +27,8 @@ requires-python = ">=3.8"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["flappy_rl"]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 "flappy_rl" = ["models/*.npy", "assets/*.*"]
