@@ -23,7 +23,7 @@
 - **Data Analysis & Result Visualization:** NumPy, Matplotlib
 
 ## 🎮 Simple Demo
-![Demo video](<src/flappy_rl/assets/Screen Recording 2025-02-23 170420.gif>)
+![Demo video](<https://raw.githubusercontent.com/kaifeng-cmd/zephyra/refs/heads/main/src/flappy_rl/assets/Screen Recording 2025-02-23 170420.gif>)
 
 ## 📂 Project Structure
 
@@ -60,6 +60,8 @@ zephyra/
 
 Get started in under a minute! Play against the AI directly from your terminal. I've make it as an offical python package.
 
+![carbon](https://raw.githubusercontent.com/kaifeng-cmd/zephyra/refs/heads/main/screenshots/carbon.png)
+
 ### 1. Install from PyPI
 ```bash
 pip install -U flappy-rl
@@ -75,7 +77,7 @@ pip install -U flappy-rl
   flappy-alpha --mode hard
   ```
 ### Example
-![cmd to start the game](screenshots/cmdtoStart.png)
+![cmd to start the game](https://raw.githubusercontent.com/kaifeng-cmd/zephyra/refs/heads/main/screenshots/cmdtoStart.png)
 
 ---
 
